@@ -19,7 +19,7 @@ when
     qa : QuestionWithAnswer(getQuestion() == "Would you trust them enough to babysit your children?", getAnswer() == Helper.YES)
 then
     QuestionWithAnswer newQuestion = new QuestionWithAnswer("Definitely");
-    newQuestion.addBoolAnswers();
+    newQuestion.setEndLeaf();
     insert(newQuestion);
 end
 
