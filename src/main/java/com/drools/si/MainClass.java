@@ -10,25 +10,26 @@ import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
-public class HelloWorldTest {
+import javax.swing.*;
+
+public class MainClass {
     public static void main(String[] args) throws DroolsParserException,
             IOException {
-        HelloWorldTest helloWorldTest = new HelloWorldTest();
-        helloWorldTest.executeHelloWorldRules();
+        MainClass mainClass = new MainClass();
+        mainClass.executeHelloWorldRules();
     }
 
     public void executeHelloWorldRules() throws IOException, DroolsParserException {
         KieServices ks = KieServices.Factory.get();
         BasicConfigurator.configure();
-        Logger.getLogger(HelloWorldTest.class).setLevel(Level.OFF);
+        Logger.getLogger(MainClass.class).setLevel(Level.OFF);
 
         KieContainer kContainer = ks.getKieClasspathContainer();
         KieSession session = kContainer.newKieSession("ksession-rules");
 
-        HelloWorld helloWorld = new HelloWorld();
-        helloWorld.setPrintMessage("Hello World");
-
-        session.insert(helloWorld);
+        QuestionWithAnswer startQuestion = new QuestionWithAnswer();
+        JPanel jPanel = new JPanel();
+        session.insert(startQuestion);
         session.fireAllRules();
     }
 }

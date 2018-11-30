@@ -1,0 +1,28 @@
+package com.drools.si
+
+rule "DoYouHaveSpace"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do you have the space to accomodate all your employes in an office?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "DoYouHaveSpaceQuestionYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do you have the space to accomodate all your employes in an office?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Do they work strange hours?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end
+
+rule "DoYouHaveSpaceQuestionNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do you have the space to accomodate all your employes in an office?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Is there a wealth of local talent?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end

@@ -1,0 +1,33 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+dialect  "mvel"
+
+rule "DoTheyHandleRawMeatOrDeadAnimals"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they handle raw meat or dead animals?", getAnswer() == Helper.EMPTY_STRING)
+then
+
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "DoTheyHandleRawMeatOrDeadAnimalsYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they handle raw meat or dead animals?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Only if they have a large kitchen, strong stomach and lots of industrial strength cleaner");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "DoTheyHandleRawMeatOrDeadAnimalsNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they handle raw meat or dead animals?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Can they do all their work on a computer?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end

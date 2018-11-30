@@ -1,0 +1,33 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+dialect  "mvel"
+
+rule "IsThereAWealthOfLocalTalents"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Is there a wealth of local talent?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+
+rule "IsThereAWealthOfLocalTalentsYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Is there a wealth of local talent?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Are they more efficient workers when they wear sweatpants and sit in their La-Z-Boy?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end
+
+rule "IsThereAWealthOfLocalTalentsNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Is there a wealth of local talent?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Is the talent willing to move near your place of business?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end

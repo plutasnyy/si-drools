@@ -1,0 +1,33 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+dialect  "mvel"
+
+rule "DoTheyWorkStrangeHours"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they work strange hours?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+
+rule "DoTheyWorkStrangeHoursYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they work strange hours?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Do they work as on-site security?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end
+
+rule "DoTheyWorkStrangeHoursNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they work strange hours?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Do they handle raw meat or dead animals?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end

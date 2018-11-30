@@ -1,0 +1,21 @@
+package rules;
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import com.drools.si.Dialog
+dialect  "mvel"
+
+rule "Start Tree"
+when
+    qa : QuestionWithAnswer(getQuestion() == Helper.EMPTY_STRING, getAnswer() == Helper.EMPTY_STRING)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Do you have the space to accomodate all your employes in an office?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end
+
+rule "End Tree"
+when
+    qa : QuestionWithAnswer(getQuestion() != Helper.EMPTY_STRING, isEndLeaf() == true)
+then
+    Dialog.showResult(qa.getQuestion());
+end

@@ -1,0 +1,7 @@
+package rules;
+dialect  "mvel"
+
+rule "AreTheyMoreEfficientWorkerksWhenTheyWear"
+    when
+    then
+end

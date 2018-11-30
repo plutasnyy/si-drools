@@ -1,0 +1,7 @@
+package rules;
+dialect  "mvel"
+
+rule "DoTheyWorkAsOnSiteSecurity"
+    when
+    then
+end
