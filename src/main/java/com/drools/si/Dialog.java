@@ -40,18 +40,18 @@ public class Dialog {
             dialog.add(btn);
         }
 
-        int n = JOptionPane.showOptionDialog(
+        Integer n = JOptionPane.showOptionDialog(
                 null,
                 dialog,
-                "Selection",
-                JOptionPane.OK_CANCEL_OPTION,
+                "Selection Panel",
+                JOptionPane.CLOSED_OPTION,
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 null,
                 null
         );
 
-        if (n == 0) {
+        if (n.equals(0)) {
             for (Enumeration<AbstractButton> buttons = bGroup.getElements(); buttons.hasMoreElements(); ) {
                 AbstractButton button = buttons.nextElement();
 
