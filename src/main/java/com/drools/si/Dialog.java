@@ -28,15 +28,15 @@ public class Dialog {
 
     public static void showDialogWithQuestion(QuestionWithAnswer questionWithAnswer) {
         JPanel dialog = new JPanel();
-        dialog.setLayout(new GridLayout(questionWithAnswer.getAnswerOptions().size() + 1, 1));
-        ButtonGroup bgroup = new ButtonGroup();
+        dialog.setLayout(new GridLayout(questionWithAnswer.getAnswerOptions().size()+1, 1));
+        ButtonGroup bGroup = new ButtonGroup();
         JLabel questionContent = new JLabel();
         questionContent.setText(questionWithAnswer.getQuestion());
         dialog.add(questionContent);
 
         for (String chosenAnswer : questionWithAnswer.getAnswerOptions()) {
             JRadioButton btn = new JRadioButton(chosenAnswer);
-            bgroup.add(btn);
+            bGroup.add(btn);
             dialog.add(btn);
         }
 
@@ -52,7 +52,7 @@ public class Dialog {
         );
 
         if (n == 0) {
-            for (Enumeration<AbstractButton> buttons = bgroup.getElements(); buttons.hasMoreElements(); ) {
+            for (Enumeration<AbstractButton> buttons = bGroup.getElements(); buttons.hasMoreElements(); ) {
                 AbstractButton button = buttons.nextElement();
 
                 if (button.isSelected()) {

@@ -15,6 +15,15 @@ then
     insert(newQuestion);
 end
 
+rule "ComputerYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Computer?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Definitely");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
 rule "ComputerNo"
 when
     qa : QuestionWithAnswer(getQuestion() == "Computer?", getAnswer() == Helper.NO)

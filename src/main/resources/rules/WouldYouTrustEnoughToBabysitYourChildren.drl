@@ -1,7 +1,33 @@
 package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
 dialect  "mvel"
 
 rule "WouldYouTrustEnoughToBabysitYourChildren"
-    when
-    then
+when
+    qa : QuestionWithAnswer(getQuestion() == "Would you trust them enough to babysit your children?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "WouldYouTrustEnoughToBabysitYourChildrenYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Would you trust them enough to babysit your children?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Definitely");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end
+
+rule "WouldYouTrustEnoughToBabysitYourChildrenNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Would you trust them enough to babysit your children?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Can you easily track their progress?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
 end

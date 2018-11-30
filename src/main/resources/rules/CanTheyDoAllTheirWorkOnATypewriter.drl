@@ -29,6 +29,6 @@ when
     qa : QuestionWithAnswer(getQuestion() == "Can they do all their work on a typewriter?", getAnswer() == Helper.NO)
 then
     QuestionWithAnswer newQuestion = new QuestionWithAnswer("Computer?");
-    newQuestion.setAnswerOptions(Collections.singletonList("No"));
+    newQuestion.addBoolAnswers();
     insert(newQuestion);
 end

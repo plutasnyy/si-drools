@@ -15,7 +15,7 @@ then
     insert(newQuestion);
 end
 
-rule "WouldYouSayThatTheyNeedToBeCloselyManagedOr"
+rule "WouldYouSayThatTheyNeedToBeCloselyManagedOrCloselyManaged"
 when
     qa : QuestionWithAnswer(getQuestion() == "Would you say that they need to be closely managed or are they self-sufficient?", getAnswer() == "Closely managed")
 then
@@ -24,7 +24,7 @@ then
     insert(newQuestion);
 end
 
-rule "CanTheyDoAllTheirWorkOnAWouldYouSayThatTheyNeedToBeCloselyManagedOrTypewriterNo"
+rule "WouldYouSayThatTheyNeedToBeCloselyManagedOrSelfSufficient"
 when
     qa : QuestionWithAnswer(getQuestion() == "Would you say that they need to be closely managed or are they self-sufficient?", getAnswer() == "Self-sufficient")
 then
