@@ -1,0 +1,33 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
+dialect  "mvel"
+
+rule "HourlyOrSalary"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Hourly or salary?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "HourlyOrSalaryHourly"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Hourly or salary?", getAnswer() == "Hourly")
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Does their work affect day-to-day in-house activities?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end
+
+rule "HourlyOrSalarySalary"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Hourly or salary?", getAnswer() == "Salary")
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Would you trust them enough to babysit your children?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end

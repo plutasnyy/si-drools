@@ -1,7 +1,33 @@
 package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
 dialect  "mvel"
 
 rule "DoTheyWorkWithDeadlyVirusesOrFleshEatingBacteria"
-    when
-    then
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they work with deadly viruses or flesh-eating bacteria?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "DoTheyWorkWithDeadlyVirusesOrFleshEatingBacteriaYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they work with deadly viruses or flesh-eating bacteria?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Not useless you want to be the cause of a global pandemic");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "DoTheyWorkWithDeadlyVirusesOrFleshEatingBacteriaNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they work with deadly viruses or flesh-eating bacteria?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Hourly or salary?");
+    newQuestion.setAnswerOptions(Arrays.asList("Hourly","Salary"));
+    insert(newQuestion);
 end

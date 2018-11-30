@@ -1,0 +1,33 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
+dialect  "mvel"
+
+rule "AreTheyWorkingCloselyWithOtherEmployees"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Are they working closely with other employees?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "AreTheyWorkingCloselyWithOtherEmployeesYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Are they working closely with other employees?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Better to have them in-house too");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "AreTheyWorkingCloselyWithOtherEmployeesNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Are they working closely with other employees?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Would you say they are organized and self-motivated?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end

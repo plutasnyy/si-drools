@@ -1,0 +1,33 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
+dialect  "mvel"
+
+rule "WouldYouSayTheyAreOrganizedAndSelfMotivated"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Would you say they are organized and self-motivated?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "WouldYouSayTheyAreOrganizedAndSelfMotivatedYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Would you say they are organized and self-motivated?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Should be fine");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "WouldYouSayTheyAreOrganizedAndSelfMotivatedNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Would you say they are organized and self-motivated?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Probably not");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end

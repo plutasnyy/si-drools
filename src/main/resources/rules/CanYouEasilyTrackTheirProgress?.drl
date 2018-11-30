@@ -1,0 +1,33 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
+dialect  "mvel"
+
+rule "CanYouEasilyTrackTheirProgress"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Can you easily track their progress?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "CanYouEasilyTrackTheirProgressYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Can you easily track their progress?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Let them work from home");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "CanYouEasilyTrackTheirProgressNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Can you easily track their progress?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Probably not");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end

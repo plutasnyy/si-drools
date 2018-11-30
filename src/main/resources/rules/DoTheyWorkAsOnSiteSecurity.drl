@@ -1,7 +1,33 @@
 package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
 dialect  "mvel"
 
 rule "DoTheyWorkAsOnSiteSecurity"
-    when
-    then
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they work as on-site security?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "DoTheyWorkAsOnSiteSecurityYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they work as on-site security?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Will only work if they have superpowers rivaling The Flash");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "DoTheyWorkAsOnSiteSecurityNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they work as on-site security?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Are they working closely with other employees?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
 end

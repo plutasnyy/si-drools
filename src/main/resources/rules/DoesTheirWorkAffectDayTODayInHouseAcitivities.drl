@@ -1,0 +1,33 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
+dialect  "mvel"
+
+rule "DoesTheirWorkAffectDayTODayInHouseAcitivities"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Does their work affect day-to-day in-house activities?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "DoesTheirWorkAffectDayTODayInHouseAcitivitiesYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Does their work affect day-to-day in-house activities?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Probably not");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "DoesTheirWorkAffectDayTODayInHouseAcitivitiesNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Does their work affect day-to-day in-house activities?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Can you easily track their progress?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end
