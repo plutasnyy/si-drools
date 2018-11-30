@@ -1,0 +1,34 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
+import java.util.Collections
+dialect  "mvel"
+
+rule "WouldYouSayThatTheyNeedToBeCloselyManagedOr"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Would you say that they need to be closely managed or are they self-sufficient?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "WouldYouSayThatTheyNeedToBeCloselyManagedOr"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Would you say that they need to be closely managed or are they self-sufficient?", getAnswer() == "Closely managed")
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Bad Idea");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "CanTheyDoAllTheirWorkOnAWouldYouSayThatTheyNeedToBeCloselyManagedOrTypewriterNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Would you say that they need to be closely managed or are they self-sufficient?", getAnswer() == "Self-sufficient")
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Definitely");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end

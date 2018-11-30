@@ -1,0 +1,32 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+dialect  "mvel"
+
+rule "AreTheyAddictedToSoapOperas"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Are they addicted to soap operas?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "AreTheyAddictedToSoapOperasYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Are they addicted to soap operas?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Bad Idea");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "AreTheyAddictedToSoapOperasNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Are they addicted to soap operas?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Can they do all their work on a typewriter?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end

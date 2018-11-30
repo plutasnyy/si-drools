@@ -1,0 +1,32 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+dialect  "mvel"
+
+rule "DoTheyWorkWithSensitiveMaterial"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they work with 'sensitive' material?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "DoTheyWorkWithSensitiveMaterialYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they work with 'sensitive' material?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Bad Idea");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "DoTheyWorkWithSensitiveMaterialNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they work with 'sensitive' material?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Are they addicted to soap operas?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end

@@ -8,7 +8,6 @@ rule "DoTheyHandleRawMeatOrDeadAnimals"
 when
     qa : QuestionWithAnswer(getQuestion() == "Do they handle raw meat or dead animals?", getAnswer() == Helper.EMPTY_STRING)
 then
-
     Dialog.showDialogWithQuestion(qa);
     QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
     insert(newQuestion);

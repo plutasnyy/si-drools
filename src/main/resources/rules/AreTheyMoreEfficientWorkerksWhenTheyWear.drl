@@ -1,7 +1,32 @@
 package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
 dialect  "mvel"
 
 rule "AreTheyMoreEfficientWorkerksWhenTheyWear"
-    when
-    then
+when
+    qa : QuestionWithAnswer(getQuestion() == "Are they more efficient workers when they wear sweatpants and sit in their La-Z-Boy?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "AreTheyMoreEfficientWorkerksWhenTheyWearYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Are they more efficient workers when they wear sweatpants and sit in their La-Z-Boy?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Let 'em veg out");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "AreTheyMoreEfficientWorkerksWhenTheyWearNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Are they more efficient workers when they wear sweatpants and sit in their La-Z-Boy?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Do they work with 'sensitive' material?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
 end

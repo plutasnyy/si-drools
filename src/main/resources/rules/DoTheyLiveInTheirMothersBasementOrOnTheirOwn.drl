@@ -1,0 +1,33 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
+dialect  "mvel"
+
+rule "DoTheyLiveInTheirMothersBasementOrOnTheirOwn"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they live in their mother's basement or on their own?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "DoTheyLiveInTheirMothersBasementOrOnTheirOwnMothers"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they live in their mother's basement or on their own?", getAnswer() == "Mother's basement")
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Sketchy");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "DoTheyLiveInTheirMothersBasementOrOnTheirOwnOwn"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Do they live in their mother's basement or on their own?", getAnswer() == "On their own")
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Would you trust them enough to babysit your children?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
+end

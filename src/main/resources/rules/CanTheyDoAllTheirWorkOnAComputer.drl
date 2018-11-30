@@ -1,7 +1,33 @@
 package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
 dialect  "mvel"
 
 rule "CanTheyDoAllTheirWorkOnAComputer"
-    when
-    then
+when
+    qa : QuestionWithAnswer(getQuestion() == "Can they do all their work on a computer?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "CanTheyDoAllTheirWorkOnAComputerYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Can they do all their work on a computer?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Do they live in their mother's basement or on their own?");
+    newQuestion.setAnswerOptions(Arrays.asList("Mother's basement","On their own"));
+    insert(newQuestion);
+end
+
+rule "CanTheyDoAllTheirWorkOnAComputerNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Can they do all their work on a computer?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Do they work with deadly viruses or flesh-eating bacteria?");
+    newQuestion.addBoolAnswers();
+    insert(newQuestion);
 end

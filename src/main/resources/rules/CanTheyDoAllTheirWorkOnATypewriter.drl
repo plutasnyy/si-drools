@@ -1,0 +1,34 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
+import java.util.Collections
+dialect  "mvel"
+
+rule "CanTheyDoAllTheirWorkOnATypewriter"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Can they do all their work on a typewriter?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "CanTheyDoAllTheirWorkOnATypewriterYes"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Can they do all their work on a typewriter?", getAnswer() == Helper.YES)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Definitely");
+    newQuestion.setEndLeaf();
+    insert(newQuestion);
+end
+
+rule "CanTheyDoAllTheirWorkOnATypewriterNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Can they do all their work on a typewriter?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Computer?");
+    newQuestion.setAnswerOptions(Collections.singletonList("No"));
+    insert(newQuestion);
+end

@@ -13,7 +13,6 @@ then
     insert(newQuestion);
 end
 
-
 rule "IsThereAWealthOfLocalTalentsYes"
 when
     qa : QuestionWithAnswer(getQuestion() == "Is there a wealth of local talent?", getAnswer() == Helper.YES)

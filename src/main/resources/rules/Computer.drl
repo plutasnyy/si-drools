@@ -1,0 +1,25 @@
+package rules;
+import com.drools.si.Dialog
+import com.drools.si.QuestionWithAnswer
+import com.drools.si.Helper
+import java.util.Arrays
+import java.util.Collections
+dialect  "mvel"
+
+rule "Computer"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Computer?", getAnswer() == Helper.EMPTY_STRING)
+then
+    Dialog.showDialogWithQuestion(qa);
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer(qa);
+    insert(newQuestion);
+end
+
+rule "ComputerNo"
+when
+    qa : QuestionWithAnswer(getQuestion() == "Computer?", getAnswer() == Helper.NO)
+then
+    QuestionWithAnswer newQuestion = new QuestionWithAnswer("Would you say that they need to be closely managed or are they self-sufficient?");
+    newQuestion.setAnswerOptions(Arrays.asList("Closely managed","Self-sufficient"));
+    insert(newQuestion);
+end
