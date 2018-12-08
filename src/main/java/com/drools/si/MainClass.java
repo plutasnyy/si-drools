@@ -28,8 +28,8 @@ public class MainClass {
         KieSession session = kContainer.newKieSession("ksession-rules");
 
         QuestionWithAnswer startQuestion = new QuestionWithAnswer();
-        JPanel jPanel = new JPanel();
         session.insert(startQuestion);
+        
         session.fireAllRules();
     }
 }
