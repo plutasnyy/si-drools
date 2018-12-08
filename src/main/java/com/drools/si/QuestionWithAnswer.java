@@ -1,9 +1,6 @@
 package com.drools.si;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 public class QuestionWithAnswer {
@@ -22,17 +19,12 @@ public class QuestionWithAnswer {
     public QuestionWithAnswer(QuestionWithAnswer qa) {
         this.Question = qa.Question;
         this.Answer = qa.Answer;
-        //unused but important to keep every value
         this.AnswerOptions =qa.AnswerOptions;
 
     }
 
     public String getQuestion() {
         return Question;
-    }
-
-    public void setQuestion(String question) {
-        Question = question;
     }
 
     public String getAnswer() {
